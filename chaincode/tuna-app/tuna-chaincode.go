@@ -144,7 +144,7 @@ This method takes in five arguments (attributes to be saved in the ledger).
  */
 func (s *SmartContract) recordMedic(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
 
-	if len(args) != 10 {
+	if len(args) != 11 {
 		return shim.Error("Incorrect number of arguments. Expecting 10")
 	}
 

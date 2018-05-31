@@ -55,20 +55,6 @@ app.controller('appController', function($scope, appFactory){
 		});
 	}
 
-	$scope.changeHolder = function(){
-
-		appFactory.changeHolder($scope.holder, function(data){
-			$scope.change_holder = data;
-			if ($scope.change_holder == "Error: no tuna catch found"){
-				$("#error_holder").show();
-				$("#success_holder").hide();
-			} else{
-				$("#success_holder").show();
-				$("#error_holder").hide();
-			}
-		});
-	}
-
 });
 
 // Angular Factory
@@ -91,23 +77,18 @@ app.factory('appFactory', function($http){
 
 	factory.recordMedic = function(data, callback){
 
-		data.location = data.longitude + ", "+ data.latitude;
+		var medic = data.id + "-" + data.refProduit + "-" + data.nomProduit 
+		+ "-" + data.nomFabricant + "-" + data.numeroLot + "-" + data.dateExp 
+		+ "-" + data.localisationVille + "-" + data.localisationEtablissement 
+		+ "-" + data.dateCreation + "-" + data.dateReception + "-" + "false";
 
-		var medic = data.id + "-" + data.location;
 
-    	$http.get('/add_medic/'+medic).success(function(output){
+
+   	$http.get('/add_medic/'+ medic).success(function(output){
 			callback(output)
 		});
 	}
 
-	factory.changeHolder = function(data, callback){
-
-		var holder = data.id + "-" + data.name;
-
-    	$http.get('/change_holder/'+holder).success(function(output){
-			callback(output)
-		});
-	}
 
 	return factory;
 });
