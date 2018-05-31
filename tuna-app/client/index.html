@@ -1,0 +1,173 @@
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+  <!DOCTYPE html>
+  <html>
+    <head>
+    <title>BlockChain - Gestion des médicaments</title>
+    <link rel="icon" href="favicon.png" type="image/gif">
+
+    <!-- require jquery and bootstrap scripts -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    
+    <!-- adding style here -->
+    <style type="text/css">
+      header{
+      background-color: lightgray;
+      font-size:20px;
+      padding:15px;
+      }
+      header, .form-group{
+      margin-bottom: 3%;
+      }
+      .form-group{
+      width:50%;
+      }
+      #body{
+      margin-left:3%;
+      margin-right:3%;
+      }
+      .form-control{
+      margin: 8px;
+      }
+      #right_header{
+      width:20%;
+      font-size:15px;
+      margin-right:0px;
+      }
+      #left_header{
+      margin-left:0;
+      width:40%;
+      display:inline-block;
+      } 
+      #id {
+      width:49%;
+      display: inline-block;
+      }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+    </head>
+    <body ng-app="application" ng-controller="appController">
+    <header>
+      <div id="left_header">Gestion des Médicaments</div>
+      <i id="right_header">Utilisation de la blockchain pour la gestion et le suivi des médicaments</i>
+    </header>
+
+    <div id="body">
+      <div class="form-group">
+      <label>Voir tous les médicaments</label>
+      <p><input id="queryAllMedic" type="submit" value="Voir tout" class="btn btn-primary" ng-click="queryAllMedic()"></p>
+      </div>
+   
+      <table id="all_medic" class="table" align="center">
+
+      <tr>
+        <th>ID</th>
+        <th>Référence</th>
+        <th>Nom</th>
+        <th>Fabricant</th>
+        <th>Num Lot</th>
+        <th>Date Expiration</th>
+        <th>Ville</th>
+        <th>Etablissement</th>
+        <th>Date Création</th>
+        <th>Vendu</th>
+
+      </tr>
+
+      <tr ng-repeat="medic in all_medic">
+        <td>{{medic.Key}}</td>
+        <td>{{medic.refProduit}}</td>
+        <td>{{medic.nomProduit}}</td>
+        <td>{{medic.nomFabricant}}</td>
+        <td>{{medic.numeroLot}}</td>
+        <td>{{medic.dateExp}}</td>
+        <td>{{medic.localisationVille}}</td>
+        <td>{{medic.localisationEtablissement}}</td>
+        <td>{{medic.dateReception}}</td>
+        <td>{{medic.venteClient}}</td>
+      </tr>
+      </table>
+
+      <div class="form-group">
+      <label>Requête sur un médicament particulier</label><br>
+      <h5 style="color:red;margin-bottom:2%" id="error_query">Erreur: Entrez un id médicament existant</h5>
+      
+      Enter a catch number: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="tuna_id">
+      <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryMedic()">
+      </div>
+
+      <table id="query_medic" class="table" align="center">
+
+      <tr>
+        <th>Référence</th>
+        <th>Nom</th>
+        <th>Fabricant</th>
+        <th>Num Lot</th>
+        <th>Date Expiration</th>
+        <th>Ville</th>
+        <th>Etablissement</th>
+        <th>Date Création</th>
+        <th>Vendu</th>
+      </tr>
+
+      <tr>
+        <td>{{medic.refProduit}}</td>
+        <td>{{medic.nomProduit}}</td>
+        <td>{{medic.nomFabricant}}</td>
+        <td>{{medic.numeroLot}}</td>
+        <td>{{medic.dateExp}}</td>
+        <td>{{medic.localisationVille}}</td>
+        <td>{{medic.localisationEtablissement}}</td>
+        <td>{{medic.dateReception}}</td>
+        <td>{{medic.venteClient}}</td>
+      </tr>
+      </table>
+
+      <div class="form-group">
+      <label>Ajouter un nouveau médicament</label>
+      <h5 style="color:green;margin-bottom:2%" id="success_create">Success! Tx ID: {{create_medic}}</h5>
+      <br>
+      Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="medic.id">
+      Référence: <input class="form-control" type="text" placeholder="Ex: 0239L" ng-model="medic.refProduit">
+      Nom: <input id="createName" class="form-control" type="text" placeholder="Ex: Dafalgan" ng-model="medic.nomProduit"> 
+      Fabricant: <input id="createName" class="form-control" type="text" placeholder="Ex: LILI" ng-model="medic.nomFabricant">
+      Numéro Lot: <input class="form-control" type="text" placeholder="Ex: 4982342301" ng-model="medic.numeroLot">
+      Date d'expiration: <input class="form-control" type="date" ng-model="medic.dateExp">
+      Ville: <input class="form-control" type="text" placeholder="Ex: Clermont-Ferrand" ng-model="medic.localisationVille">
+      Etablissement: <input class="form-control" type="text" placeholder="Ex: Jean de la Fontaine" ng-model="medic.localisationEtablissement">
+      Date Création: <input class="form-control" type="date" ng-model="medic.dateReception">
+      Vendu: <input type="radio" name="vendu" value="1" checked> Oui
+          <input type="radio" name="vendu" value="0"> Non<br>
+
+      <input id="createSubmit" type="submit" value="Créer" class="btn btn-primary" ng-click="recordMedic()"> 
+      </div>
+
+      <div class="form-group">
+      <label>Change Tuna Holder</label><br>
+      <h5 style="color:green;margin-bottom:2%" id="success_holder">Success! Tx ID: {{change_holder}}</h5>
+      <h5 style="color:red;margin-bottom:2%" id="error_holder">Erreur: Entrez un id valide</h5>
+      Entrez un id <input class="form-control" name="assetSelect" placeholder="Ex: 1" ng-model="holder.id">
+      Enter name of new holder: <input class="form-control" name="assetSelect" placeholder="Ex: Barry" ng-model="holder.name">
+      <input id="transferSubmit" type="submit" value="Changer" class="btn btn-primary" ng-click="changeHolder()">
+      </div>
+
+    </div>
+    </body>
+    <!-- requiring the angular page -->
+    <script type="text/javascript" src="app.js"> </script>
+  </html>
