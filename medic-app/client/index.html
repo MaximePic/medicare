@@ -69,7 +69,7 @@
 
     <div id="body">
       <div class="form-group">
-      <label>Voir tous les médicaments</label>
+      <h2>Liste des médicaments</h2>
       <p><input id="queryAllMedic" type="submit" value="Voir tout" class="btn btn-primary" ng-click="queryAllMedic()"></p>
       </div>
    
@@ -85,6 +85,7 @@
         <th>Ville</th>
         <th>Etablissement</th>
         <th>Date Création</th>
+        <th>Date Réception</th>
         <th>Vendu</th>
 
       </tr>
@@ -98,17 +99,18 @@
         <td>{{medic.dateExp}}</td>
         <td>{{medic.localisationVille}}</td>
         <td>{{medic.localisationEtablissement}}</td>
+        <td>{{medic.dateCreation}}</td>
         <td>{{medic.dateReception}}</td>
         <td>{{medic.venteClient}}</td>
       </tr>
       </table>
 
       <div class="form-group">
-      <label>Requête sur un médicament particulier</label><br>
+      <h2>Rechercher un médicament</h2><br>
       <h5 style="color:red;margin-bottom:2%" id="error_query">Erreur: Entrez un id médicament existant</h5>
       
       Entrer un numéro de médicament: <input id="createName" class="form-control" type="text" placeholder="Ex: 3" ng-model="medic_id">
-      <input id="querySubmit" type="submit" value="Query" class="btn btn-primary" ng-click="queryMedic()">
+      <input id="querySubmit" type="submit" value="Chercher" class="btn btn-primary" ng-click="queryMedic()">
       </div>
 
       <table id="query_medic" class="table" align="center">
@@ -134,13 +136,14 @@
         <td>{{query_medic.dateExp}}</td>
         <td>{{query_medic.localisationVille}}</td>
         <td>{{query_medic.localisationEtablissement}}</td>
+        <td>{{query_medic.dateCreation}}</td>
         <td>{{query_medic.dateReception}}</td>
         <td>{{query_medic.venteClient}}</td>
       </tr>
       </table>
 
       <div class="form-group">
-        <label>Ajouter un nouveau médicament</label>
+        <h2>Ajouter un nouveau médicament</h2>
         <h5 style="color:green;margin-bottom:2%" id="success_create">Enregistrement terminé! ID: {{create_medic}}</h5>
         <br>
         Id: <input class="form-control" type="text" placeholder="Ex: 11" ng-model="medic.id">

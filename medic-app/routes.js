@@ -13,8 +13,5 @@ module.exports = function(app){
   app.get('/get_all_medic', function(req, res){
     controller.get_all_medic(req, res);
   });
-  app.get('/change_holder/:holder', function(req, res){
-    controller.change_holder(req, res);
-  });
 }
 
